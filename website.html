@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profiles</title>
+  <!-- Include Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+  <style>
+    /* CSS styling for the banner and other elements */
+    .banner {
+      background-color: #333;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+    .profile {
+      border: 1px solid #ccc;
+      margin: 20px;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="banner">
+    <img src="c:\\Users\\NJRob\\Downloads\\305soft-high-resolution-color-logo.png" alt="Your Logo">
+  </div>
+  <div class="profile" id="user1Profile">
+    <!-- Placeholder for user 1 profile -->
+  </div>
+  <div class="profile" id="user2Profile">
+    <!-- Placeholder for user 2 profile -->
+  </div>
+  
+  <!-- Embed your profile app -->
+  <iframe src="https://x.thunkable.com/projects/65d6bb7d52c6e05ab69d4711/9c1ecdcc-ae5e-4f66-80ff-3750b25475f4/designer" width="100%" height="600px"></iframe>
+  
+  <script>
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCSg12fTm266tE5VLmKhmpDLyf5p7UiFaQ",
+      authDomain: "robertsprofileapp.firebaseapp.com",
+      databaseURL: "https://robertsprofileapp-default-rtdb.firebaseio.com",
+      projectId: "robertsprofileapp",
+      storageBucket: "robertsprofileapp.appspot.com",
+      messagingSenderId: "133983575433",
+      appId: "1:133983575433:web:e071ea831cf75fdb4fd558",
+      measurementId: "G-KCDPTE49PE"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Fetch user data from RTDB
+    const database = firebase.database();
+    const usersRef = database.ref('users');
+
+    // Fetch user data for the first two users
+    usersRef.limitToFirst(2).once('value', snapshot => {
+      snapshot.forEach(childSnapshot => {
+        const user = childSnapshot.val();
+        const profileDiv = document.getElementById(`user${childSnapshot.key}Profile`);
+        profileDiv.innerHTML = `
+          <h2>${user.name}</h2>
+          <p>Email: ${user.email}</p>
+          <!-- Add more user details as needed -->
+        `;
+      });
+    });
+  </script>
+</body>
+</html>
